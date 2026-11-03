@@ -1,1 +1,0 @@
-import{_ as s}from"./SongList.js";import{g as o,G as t,k as a}from"./vendor.js";import"./index.js";import"./Pagination.js";const n={class:"local-songs"},r={__name:"songs",props:{songList:{type:Array,default:()=>[]}},setup:r=>(i,e)=>{const p=s;return o(),t("div",n,[a(p,{data:r.songList},null,8,["data"])])}};export{r as default};

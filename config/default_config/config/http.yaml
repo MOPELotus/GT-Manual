@@ -1,0 +1,4 @@
+# Reverse proxy HTTPS is recommended. Never trust request Host as the public URL.
+HOST: '127.0.0.1'
+HTTP_PORT: 7833
+PUBLIC_ADDRESS: 'http://127.0.0.1:7833'

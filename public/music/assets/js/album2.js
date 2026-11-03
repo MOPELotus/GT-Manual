@@ -1,1 +1,0 @@
-import"./index.js";import{a as e}from"./vendor.js";const m=m=>e({method:"GET",url:"/album",params:{id:m,timestamp:(new Date).getTime()}}),t=(m,t)=>e({method:"GET",url:"/album/sub",params:{t:m,id:t,timestamp:(new Date).getTime()}});export{m as g,t as l};

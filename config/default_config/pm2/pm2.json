@@ -3,8 +3,8 @@
     {
       "name": "GT-Manual",
       "script": "./app.js",
-      "max_memory_restart": "512M",
-      "restart_delay": 60000
+      "max_memory_restart": "128M",
+      "restart_delay": 5000
     }
   ]
 }

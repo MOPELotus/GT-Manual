@@ -1,3 +1,10 @@
-# Key校验
-## 为/register接口添加?key=114514校验，若不需要，请设为空即可
-REGISTER_KEY: '114514'
+# Set before public deployment. Empty allows unauthenticated registration.
+REGISTER_KEY: ''
+TTL_MS: 180000
+RESULT_TTL_MS: 30000
+MAX_TASKS: 1000
+
+# Optional filing number displayed on the verification page. Empty hides the footer.
+ICP_NUMBER: ''
+# Extra exact HTTP(S) origins for alternate proxy domains or explicit ports.
+ALLOWED_ORIGINS: []

@@ -139,3 +139,6 @@ data/
 config/*
 !config/default_config/
 logs/
+
+# Private offline verification artifacts
+test-env/
