@@ -1,8 +1,8 @@
-export async function startVerification({ id, button, status, fetchImpl = fetch, loadSdk = defaultLoadSdk, sdk = globalThis } = {}) {
+export async function startVerification({ id, button, status, basePath = '', fetchImpl = fetch, loadSdk = defaultLoadSdk, sdk = globalThis } = {}) {
   let started = false, finished = false, captcha
   const setStatus = message => { status.textContent = message }
   const post = async (route, body) => {
-    const response = await fetchImpl(`/GTest/${route}/${id}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), cache: 'no-store', credentials: 'same-origin', signal: AbortSignal.timeout(15000) })
+    const response = await fetchImpl(`${basePath}/GTest/${route}/${id}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), cache: 'no-store', credentials: 'same-origin', signal: AbortSignal.timeout(15000) })
     if (!response.ok) throw new Error('Verification request rejected')
   }
   const fail = async reason => {
@@ -38,7 +38,7 @@ export async function startVerification({ id, button, status, fetchImpl = fetch,
     started = true; button.disabled = true; setStatus('正在准备验证…')
     let challenge
     try {
-      const response = await fetchImpl(`/GTest/register/${id}`, { cache: 'no-store', credentials: 'same-origin', signal: AbortSignal.timeout(15000) })
+      const response = await fetchImpl(`${basePath}/GTest/register/${id}`, { cache: 'no-store', credentials: 'same-origin', signal: AbortSignal.timeout(15000) })
       if (!response.ok) throw new Error('Unavailable')
       challenge = await response.json()
       const v4 = challenge.captchaVersion === 4
@@ -88,7 +88,8 @@ function defaultLoadSdk(version) {
 }
 
 if (typeof document !== 'undefined') {
-  const id = location.pathname.match(/^\/GTest\/([A-Za-z0-9_-]{32})$/)?.[1]
+  const match = location.pathname.match(/^(.*)\/GTest\/([A-Za-z0-9_-]{32})$/)
+  const id = match?.[2]
   const button = document.getElementById('verify'), status = document.getElementById('status')
-  if (id && button && status) void startVerification({ id, button, status })
+  if (id && button && status) void startVerification({ id, button, status, basePath: match[1] })
 }

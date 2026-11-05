@@ -24,6 +24,10 @@ PUBLIC_ADDRESS: 'https://captcha.example.com'
 ALLOWED_ORIGINS: []
 ```
 
+需要在独立服务上使用子路径时，可增加 `BASE_PATH: '/lotus/gt'`。`PUBLIC_ADDRESS` 仍填写公开 origin；页面、资源、注册与结果接口都会使用该子路径。
+
+宿主可导入 `lib/server.js` 的 `createVerificationHandler({ config })` 并挂载到自己的 HTTP 服务，无需另开端口。配置由 `normalizeConfig` 生成，挂载路径与 `BASE_PATH` 保持一致；卸载时调用处理器的 `close()` 清理任务。独立部署继续使用 `npm start`。
+
 `PUBLIC_ADDRESS` 用于生成用户链接，填写浏览器实际访问的完整 origin，不带路径。HTTPS 经代理转发到本机 HTTP 服务时，这里仍填写外部 HTTPS 地址。
 
 提交来源默认接受配置的公开地址、同一配置域名的默认 HTTP/HTTPS 入口，以及实际同源的 IP/域名直连。特殊别名或非默认端口可逐项填写 `ALLOWED_ORIGINS`，例如 `https://captcha-alt.example.com:8443`。只接受完整 HTTP(S) origin，不接受路径、通配符或任意外站。代理如保留请求 Host，可在本机转发时设置 `X-Forwarded-Proto: https`；只有来自 loopback 的代理连接会使用此协议头。
